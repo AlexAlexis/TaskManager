@@ -10,20 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_25_192546) do
+ActiveRecord::Schema.define(version: 2019_08_25_202712) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "projects", force: :cascade do |t|
     t.string "name"
+    t.integer "position"
+    t.boolean "visible", default: false
+    t.integer "user_id"
+    t.string "permalink"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["permalink"], name: "index_projects_on_permalink"
+    t.index ["user_id"], name: "index_projects_on_user_id"
   end
 
   create_table "tasks", force: :cascade do |t|
+    t.integer "project_id"
     t.string "name", null: false
     t.text "description"
+    t.integer "position"
+    t.boolean "visible", default: false
+    t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,6 +43,8 @@ ActiveRecord::Schema.define(version: 2019_08_25_192546) do
     t.string "email", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "login", limit: 25, null: false
+    t.index ["login"], name: "index_users_on_login"
   end
 
 end
