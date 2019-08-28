@@ -5,6 +5,8 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     @projects = Project.all
+    @projectRevers = Project.newest_first
+    @projectNewest = Project.newest_two
   end
 
   # GET /projects/1
